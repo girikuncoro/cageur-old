@@ -1,2 +1,10 @@
 #!/bin/bash 
-npm run dev
+RED='\033[0:31m'
+NC='\033[0m'  # No Color
+
+err=$(npm run dev | grep -e error -e failing)
+
+if [ ${#err} -gt 0 ]; then
+    echo -e "${RED}Your commit failed, run test and lint on your code${NC}"
+    exit 1
+fi
