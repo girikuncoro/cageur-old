@@ -1,0 +1,29 @@
+{
+  "name": "health-tech",
+  "version": "1.0.0",
+  "description": "Preventive health technology code base for BPJS market",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext .js; exit 0",
+    "test": "mocha",
+    "dev": "npm run test | npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/girikuncoro/health-tech.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/girikuncoro/health-tech/issues"
+  },
+  "homepage": "https://github.com/girikuncoro/health-tech#readme",
+  "devDependencies": {
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb": "^11.1.0",
+    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.2.2"
+  }
+}
