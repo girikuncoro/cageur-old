@@ -18,6 +18,10 @@ $ git clone https://github.com/girikuncoro/cageur.git
 $ cd cageur
 $ npm install
 ```
+- Install heroku command line from https://devcenter.heroku.com/articles/heroku-command-line or brew
+```
+$ brew install heroku-toolbelt
+```
 
 ## Common Development Task
 - Run the mocha test scripts
