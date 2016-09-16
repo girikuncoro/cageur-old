@@ -22,9 +22,10 @@ $ npm install
 ```
 $ brew install heroku-toolbelt
 ```
-- Install mongodb community edition locally for testing purpose https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+- Install mongodb community edition locally for testing purpose https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/ and create `mongo_data/db` directory
 ```
 $ brew install mongodb
+$ mkdir -p mongo_data/db
 ```
 
 ## Common Development Task
@@ -39,4 +40,8 @@ $ npm run lint
 - Run both the test and lint
 ```
 $ npm run dev
+```
+- Run local db server
+```
+$ npm run db
 ```
