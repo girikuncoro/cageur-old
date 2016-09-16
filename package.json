@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint . --ext .js; exit 0",
     "test": "mocha; exit 0",
-    "dev": "npm run test && npm run lint"
+    "dev": "npm run test && npm run lint",
+    "db": "mongod --path ./mongo_data/db --port 9000"
   },
   "repository": {
     "type": "git",
