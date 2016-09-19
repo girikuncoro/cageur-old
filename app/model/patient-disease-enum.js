@@ -1,7 +1,7 @@
-const patientDiseaseEnum = [
+const PatientDiseaseEnum = [
   'diabetes',
   'uric acid',
   'cholestrol',
 ];
 
-export default patientDiseaseEnum;
+module.exports = PatientDiseaseEnum;

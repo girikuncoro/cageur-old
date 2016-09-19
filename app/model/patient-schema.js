@@ -1,16 +1,16 @@
-import db from '../config/db';
-import patientDiseaseEnum from './patient-disease-enum';
+const db = require('../config/db');
+const PatientDiseaseEnum = require('./patient-disease-enum');
 
-const patientSchema = db.schema({
+const PatientSchema = db.Schema({
   phoneNumber: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, default: null },
   diseases: {
-    type: [{ type: String, required: true, enum: patientDiseaseEnum }],
+    type: [{ type: String, required: true, enum: PatientDiseaseEnum }],
   },
 },
   {
     timestamps: true,
   });
 
-export default patientSchema;
+module.exports = PatientSchema;

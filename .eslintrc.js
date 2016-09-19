@@ -5,5 +5,8 @@ module.exports = {
         "react",
         "jsx-a11y",
         "import"
-    ]
+    ],
+    "rules": {
+      "new-cap": ["off", { newIsCap: false }]
+    }
 };

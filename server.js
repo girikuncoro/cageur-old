@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * Module dependencies.
  */
@@ -33,7 +32,9 @@ app.use('/api/v1/patient', require('./app/api/patient'));
  * Start Express server.
  */
 app.listen(port, () => {
+  /* eslint-disable no-console */
   console.log(`Dev server is now working on port ${port}...`);
+  /* eslint-enable no-console */
 });
 
 module.exports = app;

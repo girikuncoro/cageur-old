@@ -1,6 +1,6 @@
-import db from '../config/db';
-import patientSchema from './patient-schema';
+const db = require('../config/db');
+const PatientSchema = require('./patient-schema');
 
-const Patient = db.model('Patient', patientSchema);
+const Patient = db.model('Patient', PatientSchema);
 
-export default Patient;
+module.exports = Patient;
