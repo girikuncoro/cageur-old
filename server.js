@@ -12,7 +12,8 @@ const app = express();
 /**
  * Express configuration.
  */
-const port = process.env.NODE_ENV === 'test' ? 3000 : process.env.PORT || 5000;
+const env = process.env.NODE_ENV;
+const port = env === 'test' ? 3000 : process.env.PORT || 5000;
 app.use(bodyParser.json()); // Enable json body parsing of application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -33,7 +34,7 @@ app.use('/api/v1/patient', require('./app/api/patient'));
  */
 app.listen(port, () => {
   /* eslint-disable no-console */
-  console.log(`Dev server is now working on port ${port}...`);
+  console.log(`${env.toUpperCase()} server is now working on port ${port}...`);
   /* eslint-enable no-console */
 });
 

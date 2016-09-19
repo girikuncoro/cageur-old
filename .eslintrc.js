@@ -7,6 +7,8 @@ module.exports = {
         "import"
     ],
     "rules": {
-      "new-cap": ["off", { newIsCap: false }]
+      "new-cap": ["off", { newIsCap: false }],
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "no-underscore-dangle": ["error", { "allow": ["_id"] }]
     }
 };
