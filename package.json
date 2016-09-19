@@ -4,6 +4,7 @@
   "description": "Preventive health technology code base for BPJS market",
   "main": "index.js",
   "scripts": {
+    "server": "nodemon server.js",
     "lint": "eslint . --ext .js; exit 0",
     "test": "mocha; exit 0",
     "dev": "npm run test && npm run lint",
@@ -32,5 +33,10 @@
   },
   "engines": {
     "node": "5.9.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.0"
   }
 }
