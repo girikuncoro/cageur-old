@@ -7,7 +7,7 @@ const assert = require('assert');
 
 
 describe('Patient API', () => {
-  let patientID;
+  let validID;
 
   before((done) => {
     const newPatient1 = {
@@ -24,15 +24,15 @@ describe('Patient API', () => {
 
     Patient.remove((_) => {
       Patient.insertMany([newPatient1, newPatient2], (__, patients) => {
-        patientID = patients[1]._id;
+        validID = patients[1]._id;
         done();
       });
     });
   });
 
-  it('should get one patient data', (done) => {
+  it('should get one patient data by patientID', (done) => {
     request(app)
-    .get(`/api/v1/patient/id/${patientID}`)
+    .get(`/api/v1/patient/id/${validID}`)
     .end((_, res) => {
       const r = JSON.parse(res.text);
       assert.equal(200, r.status);
@@ -41,6 +41,49 @@ describe('Patient API', () => {
       assert.equal('+456', r.patient.phoneNumber);
       assert.equal('budi', r.patient.firstName);
       assert.deepEqual(['uric acid', 'diabetes'], r.patient.diseases);
+      done();
+    });
+  });
+
+  it('should get one patient data by phoneNumber', (done) => {
+    const validPhone = '+123';
+
+    request(app)
+    .get(`/api/v1/patient/phone/${validPhone}`)
+    .end((_, res) => {
+      const r = JSON.parse(res.text);
+      assert.equal(200, r.status);
+      assert.equal('success', r.message);
+
+      assert.equal('+123', r.patient.phoneNumber);
+      assert.equal('ayu', r.patient.firstName);
+      assert.deepEqual(['diabetes'], r.patient.diseases);
+      done();
+    });
+  });
+
+  it('should get error if patientID not found', (done) => {
+    const invalidID = 'blah';
+
+    request(app)
+    .get(`/api/v1/patient/id/${invalidID}`)
+    .end((err, res) => {
+      const r = JSON.parse(res.text);
+      assert.equal(404, r.status);
+      assert.equal('patient not found', r.message);
+      done();
+    });
+  });
+
+  it('should get error if phoneNumber not found', (done) => {
+    const invalidPhone = '+000';
+
+    request(app)
+    .get(`/api/v1/patient/phone/${invalidPhone}`)
+    .end((err, res) => {
+      const r = JSON.parse(res.text);
+      assert.equal(404, r.status);
+      assert.equal('patient not found', r.message);
       done();
     });
   });

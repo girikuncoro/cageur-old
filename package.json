@@ -4,7 +4,7 @@
   "description": "Preventive health technology code base for BPJS market",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "NODE_ENV=development nodemon server.js",
     "lint": "eslint . --ext .js; exit 0",
     "test": "TEST_URI=mongodb://localhost:9000/test mocha test/**/*.js; exit 0",
     "dev": "npm run test && npm run lint",

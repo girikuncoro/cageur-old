@@ -7,11 +7,35 @@ router.get('/id/:id', (req, res) => {
     (patient) => {
       if (patient) {
         res.json({ status: 200, message: 'success', patient });
+      } else {
+        res.json({ status: 404, message: 'patient not found' });
       }
     },
     (err) => {
       /* eslint-disable no-console */
-      console.error(err);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error(err);
+      }
+      /* eslint-enable no-console */
+      res.json({ status: 404, message: 'patient not found' });
+    });
+});
+
+// Get patient by phone number
+router.get('/phone/:phoneNumber', (req, res) => {
+  Patient.findOne({ phoneNumber: req.params.phoneNumber }).then(
+    (patient) => {
+      if (patient) {
+        res.json({ status: 200, message: 'success', patient });
+      } else {
+        res.json({ status: 404, message: 'patient not found' });
+      }
+    },
+    (err) => {
+      /* eslint-disable no-console */
+      if (process.env.NODE_ENV !== 'test') {
+        console.error(err);
+      }
       /* eslint-enable no-console */
       res.json({ status: 404, message: 'patient not found' });
     });
