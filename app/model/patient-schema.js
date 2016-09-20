@@ -7,6 +7,7 @@ const PatientSchema = db.Schema({
   lastName: { type: String, default: null },
   diseases: {
     type: [{ type: String, required: true, enum: PatientDiseaseEnum }],
+    required: true,
   },
 },
   {
