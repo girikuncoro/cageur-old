@@ -9,6 +9,8 @@ const SmsRequestSchema = db.Schema({
   // SMS processed state
   processed: { type: Boolean, required: true, default: false },
   tsProcessed: { type: Date },
+
+  user: { type: db.Schema.Types.ObjectId, ref: 'Patient' },
 },
   {
     timestamps: true,
