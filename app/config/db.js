@@ -1,4 +1,5 @@
 const db = require('mongoose');
+db.Promise = require('bluebird');
 
 if (process.env.NODE_ENV === 'staging') {
   db.connect(process.env.STAGE_URI);
