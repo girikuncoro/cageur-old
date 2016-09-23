@@ -6,7 +6,7 @@
   "scripts": {
     "server": "NODE_ENV=development nodemon server.js",
     "lint": "eslint . --ext .js; exit 0",
-    "test": "mocha test/**/*.js; exit 0",
+    "test": "NODE_ENV=test mocha test/**/*.js; exit 0",
     "dev": "npm run test && npm run lint",
     "db": "mongod --dbpath ./mongo_data/db --port 9000"
   },
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "mongoose": "^4.6.0",
     "nexmo": "^1.0.0",

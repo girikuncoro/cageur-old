@@ -1,7 +1,5 @@
-process.env.NODE_ENV = 'test';
-
-const Patient = require('../../app/model/patient');
 const app = require('../../server');
+const Patient = require('../../app/model/patient');
 const request = require('supertest');
 const assert = require('assert');
 

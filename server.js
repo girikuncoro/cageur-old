@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -10,9 +11,16 @@ const bodyParser = require('body-parser');
 const app = express();
 
 /**
- * Express configuration.
+ * Load env variables
  */
 const env = process.env.NODE_ENV;
+if (env === 'development' || env === 'test') {
+  dotenv.load();
+}
+
+/**
+ * Express configuration.
+ */
 const port = env === 'test' ? 3000 : process.env.PORT || 5000;
 app.use(bodyParser.json()); // Enable json body parsing of application/json
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,7 +36,7 @@ app.get('/', (req, res) => {
  * API routes.
  */
 app.use('/api/v1/patient', require('./app/api/patient'));
-app.use('/api/v1/sms', require('./app/api/sms'));
+// app.use('/api/v1/sms', require('./app/api/sms'));
 
 /**
  * Start Express server.
