@@ -1,6 +1,6 @@
 const app = require('../../server');
 const SmsRequest = require('../../app/model/sms-request');
-const User = require('../../app/model/patient');
+const User = require('../../app/model/user');
 const request = require('supertest');
 const assert = require('assert');
 

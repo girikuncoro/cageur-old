@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 /**
  * API routes.
  */
-app.use('/api/v1/patient', require('./app/api/patient'));
+app.use('/api/v1/user', require('./app/api/user'));
 app.use('/api/v1/sms', require('./app/api/sms'));
 
 /**

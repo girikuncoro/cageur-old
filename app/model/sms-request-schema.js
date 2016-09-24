@@ -11,7 +11,7 @@ const SmsRequestSchema = db.Schema({
   processed: { type: Boolean, default: false },
   tsProcessed: { type: Date },
 
-  user: { type: db.Schema.Types.ObjectId, ref: 'Patient' },
+  user: { type: db.Schema.Types.ObjectId, ref: 'User' },
 },
   {
     timestamps: true,

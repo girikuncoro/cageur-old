@@ -1,12 +1,12 @@
 const app = require('../../server');
-const Patient = require('../../app/model/patient');
+const User = require('../../app/model/user');
 const request = require('supertest');
 const assert = require('assert');
 
 
-describe('Patient API', () => {
-  describe('#POST /api/v1/patient', () => {
-    const newPatient = {
+describe('User API', () => {
+  describe('#POST /api/v1/user', () => {
+    const newUser = {
       phoneNumber: '+111',
       firstName: 'cecep',
       lastName: 'supriadi',
@@ -14,43 +14,43 @@ describe('Patient API', () => {
     };
 
     beforeEach((done) => {
-      Patient.remove(_ => done());
+      User.remove(_ => done());
     });
 
-    it('should insert new patient data', (done) => {
+    it('should insert new user data', (done) => {
       request(app)
-      .post('/api/v1/patient')
-      .send(newPatient)
+      .post('/api/v1/user')
+      .send(newUser)
       .end((_, res) => {
-        Patient.count({}, (__, total) => {
+        User.count({}, (__, total) => {
           const r = JSON.parse(res.text);
           assert.equal(200, r.status);
           assert.equal('success', r.message);
           assert.equal(1, total);
 
-          assert.equal('+111', r.patient.phoneNumber);
-          assert.equal('cecep', r.patient.firstName);
-          assert.deepEqual(['diabetes'], r.patient.diseases);
+          assert.equal('+111', r.user.phoneNumber);
+          assert.equal('cecep', r.user.firstName);
+          assert.deepEqual(['diabetes'], r.user.diseases);
           done();
         });
       });
     });
 
     it('should not insert data without phoneNumber', (done) => {
-      const invalidPatient = {
+      const invalidUser = {
         firstName: 'cecep',
         lastName: 'supriadi',
         diseases: ['diabetes'],
       };
 
       request(app)
-      .post('/api/v1/patient')
-      .send(invalidPatient)
+      .post('/api/v1/user')
+      .send(invalidUser)
       .end((_, res) => {
-        Patient.count({}, (__, total) => {
+        User.count({}, (__, total) => {
           const r = JSON.parse(res.text);
           assert.equal(401, r.status);
-          assert.equal('missing required field for patient', r.message);
+          assert.equal('missing required field for user', r.message);
           assert.equal(0, total);
           done();
         });
@@ -58,20 +58,20 @@ describe('Patient API', () => {
     });
 
     it('should not insert data without firstName', (done) => {
-      const invalidPatient = {
+      const invalidUser = {
         phoneNumber: '+111',
         lastName: 'supriadi',
         diseases: ['diabetes'],
       };
 
       request(app)
-      .post('/api/v1/patient')
-      .send(invalidPatient)
+      .post('/api/v1/user')
+      .send(invalidUser)
       .end((_, res) => {
-        Patient.count({}, (__, total) => {
+        User.count({}, (__, total) => {
           const r = JSON.parse(res.text);
           assert.equal(401, r.status);
-          assert.equal('missing required field for patient', r.message);
+          assert.equal('missing required field for user', r.message);
           assert.equal(0, total);
           done();
         });
@@ -79,20 +79,20 @@ describe('Patient API', () => {
     });
 
     it('should not insert data without diseases', (done) => {
-      const invalidPatient = {
+      const invalidUser = {
         phoneNumber: '+111',
         firstName: 'cecep',
         lastName: 'supriadi',
       };
 
       request(app)
-      .post('/api/v1/patient')
-      .send(invalidPatient)
+      .post('/api/v1/user')
+      .send(invalidUser)
       .end((_, res) => {
-        Patient.count({}, (__, total) => {
+        User.count({}, (__, total) => {
           const r = JSON.parse(res.text);
           assert.equal(401, r.status);
-          assert.equal('missing required field for patient', r.message);
+          assert.equal('missing required field for user', r.message);
           assert.equal(0, total);
           done();
         });
@@ -100,7 +100,7 @@ describe('Patient API', () => {
     });
 
     it('should not insert data when phoneNumber exist', (done) => {
-      const patientExist = {
+      const userExist = {
         phoneNumber: '+111',
         firstName: 'cecep',
         lastName: 'supriadi',
@@ -108,14 +108,14 @@ describe('Patient API', () => {
       };
 
       request(app)
-      .post('/api/v1/patient')
-      .send(patientExist)
+      .post('/api/v1/user')
+      .send(userExist)
       .end((_, ____) => {
         request(app)
-        .post('/api/v1/patient')
-        .send(patientExist)
+        .post('/api/v1/user')
+        .send(userExist)
         .end((__, res2) => {
-          Patient.count({}, (___, total) => {
+          User.count({}, (___, total) => {
             const r = JSON.parse(res2.text);
             assert.equal(400, r.status);
             assert.equal('phone number exist', r.message);
@@ -127,71 +127,71 @@ describe('Patient API', () => {
     });
   });
 
-  describe('#GET /api/v1/patient', () => {
+  describe('#GET /api/v1/user', () => {
     let validID;
 
     before((done) => {
-      const patient1 = {
+      const user1 = {
         phoneNumber: '+123',
         firstName: 'ayu',
         diseases: ['diabetes'],
       };
 
-      const patient2 = {
+      const user2 = {
         phoneNumber: '+456',
         firstName: 'budi',
         diseases: ['uric acid', 'diabetes'],
       };
 
-      Patient.remove((_) => {
-        Patient.insertMany([patient1, patient2], (__, patients) => {
-          validID = patients[1]._id;
+      User.remove((_) => {
+        User.insertMany([user1, user2], (__, users) => {
+          validID = users[1]._id;
           done();
         });
       });
     });
 
-    it('should get one patient data by patientID', (done) => {
+    it('should get one user data by userID', (done) => {
       request(app)
-      .get(`/api/v1/patient/id/${validID}`)
+      .get(`/api/v1/user/id/${validID}`)
       .end((_, res) => {
         const r = JSON.parse(res.text);
         assert.equal(200, r.status);
         assert.equal('success', r.message);
 
-        assert.equal('+456', r.patient.phoneNumber);
-        assert.equal('budi', r.patient.firstName);
-        assert.deepEqual(['uric acid', 'diabetes'], r.patient.diseases);
+        assert.equal('+456', r.user.phoneNumber);
+        assert.equal('budi', r.user.firstName);
+        assert.deepEqual(['uric acid', 'diabetes'], r.user.diseases);
         done();
       });
     });
 
-    it('should get one patient data by phoneNumber', (done) => {
+    it('should get one user data by phoneNumber', (done) => {
       const validPhone = '+123';
 
       request(app)
-      .get(`/api/v1/patient/phone/${validPhone}`)
+      .get(`/api/v1/user/phone/${validPhone}`)
       .end((_, res) => {
         const r = JSON.parse(res.text);
         assert.equal(200, r.status);
         assert.equal('success', r.message);
 
-        assert.equal('+123', r.patient.phoneNumber);
-        assert.equal('ayu', r.patient.firstName);
-        assert.deepEqual(['diabetes'], r.patient.diseases);
+        assert.equal('+123', r.user.phoneNumber);
+        assert.equal('ayu', r.user.firstName);
+        assert.deepEqual(['diabetes'], r.user.diseases);
         done();
       });
     });
 
-    it('should get 404 if patientID not found', (done) => {
+    it('should get 404 if userID not found', (done) => {
       const invalidID = 'blah';
 
       request(app)
-      .get(`/api/v1/patient/id/${invalidID}`)
+      .get(`/api/v1/user/id/${invalidID}`)
       .end((err, res) => {
         const r = JSON.parse(res.text);
         assert.equal(404, r.status);
-        assert.equal('patient not found', r.message);
+        assert.equal('user not found', r.message);
         done();
       });
     });
@@ -200,11 +200,11 @@ describe('Patient API', () => {
       const invalidPhone = '+000';
 
       request(app)
-      .get(`/api/v1/patient/phone/${invalidPhone}`)
+      .get(`/api/v1/user/phone/${invalidPhone}`)
       .end((err, res) => {
         const r = JSON.parse(res.text);
         assert.equal(404, r.status);
-        assert.equal('patient not found', r.message);
+        assert.equal('user not found', r.message);
         done();
       });
     });
