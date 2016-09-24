@@ -3,18 +3,13 @@ const SmsRequest = require('../model/sms-request');
 const User = require('../model/patient'); // TODO: refactor this to user model
 const nexmo = require('../config/sms');
 
-// Callback checker init for inbound Nexmo SMS
-router.post('/nexmo', (req, res, next) => {
-  return res.sendStatus(200);
-});
-
 
 // Callback from inbound Nexmo SMS
 router.get('/nexmo', (req, res, next) => {
   const newSms = new SmsRequest({
     nexmoMessageId: req.query.messageId,
-    fromNumber: req.query.to,
-    toNumber: req.query.msisdn,
+    fromNumber: req.query.msisdn,
+    toNumber: req.query.to,
     text: req.query.text,
   });
 
@@ -26,9 +21,11 @@ router.get('/nexmo', (req, res, next) => {
   .then((sms) => {
     processedSms = sms;
     /* eslint-disable no-console */
-    console.log('Inbound Nexmo SMS stored', sms);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('Inbound Nexmo SMS stored', sms);
+    }
     /* eslint-enable no-console */
-    return User.findOne({ phoneNumber: sms.toNumber });
+    return User.findOne({ phoneNumber: sms.fromNumber });
   })
   .then((user) => {
     // Load application data associated with SMS
@@ -41,13 +38,15 @@ router.get('/nexmo', (req, res, next) => {
   .then((_processedSms) => {
     // TODO: Load response from proper command routing
     // Right now it's just copying back your input
-    responseMsg = _processedSms.text || 'Empty SMS response';
-    nexmo.message.sendSms(
-      newSms.fromNumber, newSms.toNumber, responseMsg,
-      (err, _) => {
-        if (err) throw new Error('SMS delivery failed');
-      }
-    );
+    responseMsg = _processedSms.text;
+    if (responseMsg) {
+      nexmo.message.sendSms(
+        newSms.toNumber, newSms.fromNumber, responseMsg,
+        (err, _) => {
+          if (err) throw new Error('SMS delivery failed');
+        }
+      );
+    }
     return _processedSms;
   })
   .then((_processedSms) => {
@@ -68,9 +67,11 @@ router.get('/nexmo', (req, res, next) => {
       (err, _updatedSms) => {
         if (err) throw new Error('SMS process update failed');
         /* eslint-disable no-console */
-        console.log('SMS is processed', _updatedSms);
+        if (process.env.NODE_ENV !== 'test') {
+          console.log('SMS is processed', _updatedSms);
+        }
         /* eslint-enable no-console */
-        return res.json({ status: 200, message: _updatedSms.responseMsg });
+        return res.json({ status: 200, message: 'success', response: _updatedSms.responseMsg });
       });
   })
   .catch(err => next(err));
