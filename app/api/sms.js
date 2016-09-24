@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const SmsRequest = require('../model/sms-request');
-const User = require('../model/patient'); // TODO: refactor this to user model
+const User = require('../model/user');
 const nexmo = require('../config/sms');
 
 

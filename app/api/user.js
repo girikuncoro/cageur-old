@@ -1,24 +1,24 @@
 const router = require('express').Router();
-const Patient = require('../model/patient');
+const User = require('../model/user');
 
 
-// Insert new patient
+// Insert new user
 router.post('/', (req, res) => {
-  const newPatient = new Patient({
+  const newUser = new User({
     phoneNumber: req.body.phoneNumber,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     diseases: req.body.diseases,
   });
 
-  Patient.find({ phoneNumber: newPatient.phoneNumber }).count().then(
+  User.find({ phoneNumber: newUser.phoneNumber }).count().then(
     (exist) => {
       if (exist) {
         res.json({ status: 400, message: 'phone number exist' });
       } else {
-        newPatient.save().then(
-          (patient) => {
-            res.json({ status: 200, message: 'success', patient });
+        newUser.save().then(
+          (user) => {
+            res.json({ status: 200, message: 'success', user });
           },
           (err) => {
             /* eslint-disable no-console */
@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
               console.error(err);
             }
             /* eslint-enable no-console */
-            res.json({ status: 401, message: 'missing required field for patient' });
+            res.json({ status: 401, message: 'missing required field for user' });
           }
         );
       }
@@ -34,14 +34,14 @@ router.post('/', (req, res) => {
   );
 });
 
-// Get patient by id
+// Get user by id
 router.get('/id/:id', (req, res) => {
-  Patient.findOne({ _id: req.params.id }).then(
-    (patient) => {
-      if (patient) {
-        res.json({ status: 200, message: 'success', patient });
+  User.findOne({ _id: req.params.id }).then(
+    (user) => {
+      if (user) {
+        res.json({ status: 200, message: 'success', user });
       } else {
-        res.json({ status: 404, message: 'patient not found' });
+        res.json({ status: 404, message: 'user not found' });
       }
     },
     (err) => {
@@ -50,18 +50,18 @@ router.get('/id/:id', (req, res) => {
         console.error(err);
       }
       /* eslint-enable no-console */
-      res.json({ status: 404, message: 'patient not found' });
+      res.json({ status: 404, message: 'user not found' });
     });
 });
 
-// Get patient by phone number
+// Get user by phone number
 router.get('/phone/:phoneNumber', (req, res) => {
-  Patient.findOne({ phoneNumber: req.params.phoneNumber }).then(
-    (patient) => {
-      if (patient) {
-        res.json({ status: 200, message: 'success', patient });
+  User.findOne({ phoneNumber: req.params.phoneNumber }).then(
+    (user) => {
+      if (user) {
+        res.json({ status: 200, message: 'success', user });
       } else {
-        res.json({ status: 404, message: 'patient not found' });
+        res.json({ status: 404, message: 'user not found' });
       }
     },
     (err) => {
@@ -70,7 +70,7 @@ router.get('/phone/:phoneNumber', (req, res) => {
         console.error(err);
       }
       /* eslint-enable no-console */
-      res.json({ status: 404, message: 'patient not found' });
+      res.json({ status: 404, message: 'user not found' });
     });
 });
 
