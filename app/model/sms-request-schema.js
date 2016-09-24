@@ -5,9 +5,10 @@ const SmsRequestSchema = db.Schema({
   fromNumber: { type: String, required: true },
   toNumber: { type: String, required: true },
   text: { type: String, required: true },
+  responseMsg: { type: String, default: '' },
 
   // SMS processed state
-  processed: { type: Boolean, required: true, default: false },
+  processed: { type: Boolean, default: false },
   tsProcessed: { type: Date },
 
   user: { type: db.Schema.Types.ObjectId, ref: 'Patient' },
