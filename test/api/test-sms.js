@@ -53,7 +53,7 @@ describe('Sms API', () => {
       });
     });
 
-    it('should caught error when invalid SMS request', (done) => {
+    it('should caught 401 when invalid SMS request', (done) => {
       const invalidSms = {
         messageId: '1',
         to: '+123',
@@ -71,7 +71,7 @@ describe('Sms API', () => {
       });
     });
 
-    it('should caught error when unknown phoneNumber', (done) => {
+    it('should caught 404 when unknown phoneNumber', (done) => {
       const invalidSms = {
         messageId: '1',
         to: '+123',

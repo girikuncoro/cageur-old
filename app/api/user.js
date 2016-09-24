@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
           },
           (err) => {
             /* eslint-disable no-console */
-            if (process.env.NODE_ENV !== 'test') {
+            if (process.env.NODE_ENV === 'dev') {
               console.error(err);
             }
             /* eslint-enable no-console */
@@ -46,7 +46,7 @@ router.get('/id/:id', (req, res) => {
     },
     (err) => {
       /* eslint-disable no-console */
-      if (process.env.NODE_ENV !== 'test') {
+      if (process.env.NODE_ENV === 'dev') {
         console.error(err);
       }
       /* eslint-enable no-console */
@@ -66,7 +66,7 @@ router.get('/phone/:phoneNumber', (req, res) => {
     },
     (err) => {
       /* eslint-disable no-console */
-      if (process.env.NODE_ENV !== 'test') {
+      if (process.env.NODE_ENV === 'dev') {
         console.error(err);
       }
       /* eslint-enable no-console */
