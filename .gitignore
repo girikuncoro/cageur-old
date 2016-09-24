@@ -32,7 +32,8 @@ node_modules
 jspm_packages
 
 # Mongo local directory
-mongo_data
+mongo_test
+mongo_dev
 
 # Optional npm cache directory
 .npm

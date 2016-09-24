@@ -3,6 +3,11 @@ const SmsRequest = require('../model/sms-request');
 const User = require('../model/patient'); // TODO: refactor this to user model
 const nexmo = require('../config/sms');
 
+// Callback checker init for inbound Nexmo SMS
+router.post('/nexmo', (req, res, next) => {
+  return res.sendStatus(200);
+});
+
 
 // Callback from inbound Nexmo SMS
 router.get('/nexmo', (req, res, next) => {
