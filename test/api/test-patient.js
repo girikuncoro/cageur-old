@@ -1,13 +1,11 @@
-process.env.NODE_ENV = 'test';
-
-const Patient = require('../../app/model/patient');
 const app = require('../../server');
+const Patient = require('../../app/model/patient');
 const request = require('supertest');
 const assert = require('assert');
 
 
 describe('Patient API', () => {
-  describe('#POST request', () => {
+  describe('#POST /api/v1/patient', () => {
     const newPatient = {
       phoneNumber: '+111',
       firstName: 'cecep',
@@ -129,7 +127,7 @@ describe('Patient API', () => {
     });
   });
 
-  describe('#GET request', () => {
+  describe('#GET /api/v1/patient', () => {
     let validID;
 
     before((done) => {

@@ -6,9 +6,10 @@
   "scripts": {
     "server": "NODE_ENV=development nodemon server.js",
     "lint": "eslint . --ext .js; exit 0",
-    "test": "TEST_URI=mongodb://localhost:9000/test mocha test/**/*.js; exit 0",
+    "test": "NODE_ENV=test mocha test/**/*.js; exit 0",
     "dev": "npm run test && npm run lint",
-    "db": "mongod --dbpath ./mongo_data/db --port 9000"
+    "db:test": "mongod --dbpath ./mongo_test/db --port 9000",
+    "db:dev": "mongod --dbpath ./mongo_dev/db --port 9001"
   },
   "repository": {
     "type": "git",
@@ -33,9 +34,12 @@
     "nodemon": "^1.10.2"
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "mongoose": "^4.6.0",
+    "nexmo": "^1.0.0",
     "supertest": "^2.0.0"
   }
 }

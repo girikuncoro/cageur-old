@@ -32,7 +32,8 @@ node_modules
 jspm_packages
 
 # Mongo local directory
-mongo_data
+mongo_test
+mongo_dev
 
 # Optional npm cache directory
 .npm
@@ -42,3 +43,6 @@ mongo_data
 
 # Optional REPL history
 .node_repl_history
+
+# Heroku local env
+.env
