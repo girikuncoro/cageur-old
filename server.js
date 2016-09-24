@@ -41,13 +41,12 @@ app.use('/api/v1/sms', require('./app/api/sms'));
 /**
  * Error handler routes.
  */
-app.use((err, _, res) => {
-  const errOut = (env === 'dev' || env === 'test') ? err : {};
-
+app.use((err, _, res, __) => {
   res.status(err.status || 500);
   res.send({
-    message: err.message,
-    error: errOut,
+    status: err.status || 500,
+    message: 'error',
+    error: err.message,
   });
 });
 

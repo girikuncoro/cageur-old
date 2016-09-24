@@ -52,5 +52,42 @@ describe('Sms API', () => {
         });
       });
     });
+
+    it('should caught error when invalid SMS request', (done) => {
+      const invalidSms = {
+        messageId: '1',
+        to: '+123',
+        text: 'test message',
+      };
+      request(app)
+      .get('/api/v1/sms/nexmo')
+      .query(invalidSms)
+      .end((_, res) => {
+        const r = JSON.parse(res.text);
+        assert.equal(401, r.status);
+        assert.equal('error', r.message);
+        assert.equal('Invalid SMS request', r.error);
+        done();
+      });
+    });
+
+    it('should caught error when unknown phoneNumber', (done) => {
+      const invalidSms = {
+        messageId: '1',
+        to: '+123',
+        msisdn: '+222',  // number not in user db
+        text: 'test message',
+      };
+      request(app)
+      .get('/api/v1/sms/nexmo')
+      .query(invalidSms)
+      .end((_, res) => {
+        const r = JSON.parse(res.text);
+        assert.equal(404, r.status);
+        assert.equal('error', r.message);
+        assert.equal('SMS sender not found', r.error);
+        done();
+      });
+    });
   });
 });
