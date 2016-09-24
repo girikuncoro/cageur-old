@@ -39,6 +39,18 @@ app.use('/api/v1/user', require('./app/api/user'));
 app.use('/api/v1/sms', require('./app/api/sms'));
 
 /**
+ * Error handler routes.
+ */
+app.use((err, _, res, __) => {
+  res.status(err.status || 500);
+  res.send({
+    status: err.status || 500,
+    message: 'error',
+    error: err.message,
+  });
+});
+
+/**
  * Start Express server.
  */
 app.listen(port, () => {

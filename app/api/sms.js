@@ -2,6 +2,7 @@ const router = require('express').Router();
 const SmsRequest = require('../model/sms-request');
 const User = require('../model/user');
 const nexmo = require('../config/sms');
+const abort = require('../util').abort;
 
 
 // Callback from inbound Nexmo SMS
@@ -26,11 +27,13 @@ router.get('/nexmo', (req, res, next) => {
     }
     /* eslint-enable no-console */
     return User.findOne({ phoneNumber: sms.fromNumber });
-  })
+  },
+    (err) => { throw abort(401, 'Invalid SMS request', err); }
+  )
   .then((user) => {
     // Load application data associated with SMS
     if (!user) {
-      throw new Error('SMS sender not found');
+      throw abort(404, 'SMS sender not found');
     }
     processedSms.user = user._id;
     return processedSms;
@@ -43,7 +46,7 @@ router.get('/nexmo', (req, res, next) => {
       nexmo.message.sendSms(
         newSms.toNumber, newSms.fromNumber, responseMsg,
         (err, _) => {
-          if (err) throw new Error('SMS delivery failed');
+          if (err) throw abort(401, 'SMS delivery failed');
         }
       );
     }
@@ -65,7 +68,7 @@ router.get('/nexmo', (req, res, next) => {
       updatedSms,
       option,
       (err, _updatedSms) => {
-        if (err) throw new Error('SMS process update failed');
+        if (err) throw abort(401, 'SMS process update failed');
         /* eslint-disable no-console */
         if (process.env.NODE_ENV !== 'test') {
           console.log('SMS is processed', _updatedSms);
