@@ -13,6 +13,7 @@ const UserSchema = db.Schema({
   roles: {
     type: [{ type: String, enum: UserRolesConst }],  // Optional for now
   },
+  clinic: { type: String, default: null },  // TODO: implement clinic data model
 },
   {
     timestamps: true,

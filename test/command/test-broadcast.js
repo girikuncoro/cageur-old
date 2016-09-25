@@ -1,5 +1,5 @@
 const SmsRequest = require('../../app/model/sms-request');
-const BroadcastCommand = require('../../app/command/broadcast-action');
+const BroadcastCommand = require('../../app/command/broadcast-action').BroadcastCommand;
 const assert = require('assert');
 
 const broadcastHelper = (text) => {

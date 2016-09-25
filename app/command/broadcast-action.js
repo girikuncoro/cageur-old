@@ -1,4 +1,8 @@
 const TwoArgCommand = require('./base-action');
+const Action = require('./base').Action;
+const User = require('../model/user');
+const nexmo = require('../config/sms').nexmo;
+const nexmoPhone = require('../config/sms').nexmoPhone;
 
 const validCmds = [
   'broadcast', // en
@@ -36,4 +40,37 @@ class BroadcastCommand extends TwoArgCommand {
   }
 }
 
-module.exports = BroadcastCommand;
+class BroadcastAction extends Action {
+  constructor(command) {
+    super(command);
+    this.clinic = null;
+  }
+
+  execute() {
+    User.findById(this.command.sms.user)
+    .then((user) => {
+      this.message = this.command.message;
+      this.clinic = user.clinic;
+
+      if (this.group === all) {
+        return User.find({ clinic: this.clinic, userRoles: 'patient' });
+      }
+      return User.find({ clinic: this.clinic, userRoles: 'patient', diseases: this.group });
+    })
+    .then((patients) => {
+      if (patients.length === 0) {
+        return 'Message delivery failed';
+      }
+      patients.forEach((patient) => {
+        // TODO: use task queue from Heroku
+        nexmo.message.sendSms(
+          nexmoPhone.US, patient.phoneNumber, this.message, (_, __) => { }
+        );
+      });
+      return 'Message delivered';
+    });
+  }
+}
+
+
+module.exports = { BroadcastCommand, BroadcastAction };

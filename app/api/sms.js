@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const SmsRequest = require('../model/sms-request');
 const User = require('../model/user');
-const nexmo = require('../config/sms');
+const nexmo = require('../config/sms').nexmo;
 const abort = require('../util').abort;
 
 

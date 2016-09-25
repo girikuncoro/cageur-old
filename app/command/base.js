@@ -1,12 +1,3 @@
-/* Action Class executes data based on given command
-*  @param command : string
-*/
-class Action {
-  constructor(command) {
-    this.command = command;
-  }
-}
-
 /* Command Class parses raw text message into action specific data
 *  @param rawText : string
 *  @param validCmds : array
@@ -25,4 +16,13 @@ class Command {
   }
 }
 
-module.exports = { Action, Command };
+/* Action Class executes data based on given command
+*  @param command : string
+*/
+class Action {
+  constructor(command) {
+    this.command = command;
+  }
+}
+
+module.exports = { Command, Action };

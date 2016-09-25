@@ -1,5 +1,10 @@
 const Nexmo = require('nexmo');
 
+const nexmoPhone = {
+  ID: process.env.NEXMO_ID_PHONE,
+  US: process.env.NEXMO_US_PHONE,
+};
+
 let nexmo;
 
 if (process.env.NODE_ENV === 'staging') {
@@ -15,4 +20,4 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   });
 }
 
-module.exports = nexmo;
+module.exports = { nexmo, nexmoPhone };
