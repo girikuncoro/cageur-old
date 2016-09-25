@@ -15,12 +15,12 @@ class Command {
   constructor(rawData, validCmds) {
     this.rawData = rawData;
     this.validCmds = validCmds;
-    this.cmd = null;
+    this.cmd = '';
   }
 
   valid() {
-    return this.validCmds.any(
-      validCmd => this.cmd.toLowerCase() === validCmd
+    return this.validCmds.some(
+      validCmd => this.cmd === validCmd
     );
   }
 }

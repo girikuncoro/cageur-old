@@ -1,4 +1,4 @@
-const Command = require('./base');
+const Command = require('./base').Command;
 
 /* Two arguments command
 *  format : <command> <arg0> <rest>
@@ -14,9 +14,9 @@ class TwoArgCommand extends Command {
     this.message = '';
 
     if (words.length >= 3) {
-      this.cmd = words[0];
-      this.arg = words[1];
-      this.message = ' '.join(words.slice(2));
+      this.cmd = words[0].toLowerCase();
+      this.arg = words[1].toLowerCase();
+      this.message = words.slice(2).join(' ');
     }
   }
 }
