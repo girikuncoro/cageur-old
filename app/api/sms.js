@@ -2,10 +2,35 @@ const router = require('express').Router();
 const SmsRequest = require('../model/sms-request');
 const User = require('../model/user');
 const nexmo = require('../config/sms').nexmo;
+const nexmoPhone = require('../config/sms').nexmoPhone;
 const abort = require('../util').abort;
 
 
+// Broadcast SMS worker endpoint
+// /api/v1/sms/broadcast
+router.post('/broadcast', (req, res, next) => {
+  const phoneNumbers = req.body.phoneNumbers;
+  const message = req.body.message;
+
+  phoneNumbers.forEach((toNumber) => {
+    nexmo.message.sendSms(
+      nexmoPhone.US, toNumber, message,
+      (err, _) => {
+        if (err) next(abort(401, 'SMS delivery failed'));
+      }
+    );
+  });
+
+  return res.json({
+    status: 200,
+    message: 'success',
+    totalPatient: phoneNumbers.length,
+    text: message,
+  });
+});
+
 // Callback from inbound Nexmo SMS
+// /api/v1/sms/nexmo
 router.get('/nexmo', (req, res, next) => {
   const newSms = new SmsRequest({
     nexmoMessageId: req.query.messageId,

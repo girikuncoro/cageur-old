@@ -3,6 +3,7 @@ const User = require('../model/user');
 
 
 // Insert new user
+// /api/v1/user
 router.post('/', (req, res) => {
   const newUser = new User({
     phoneNumber: req.body.phoneNumber,
@@ -35,6 +36,7 @@ router.post('/', (req, res) => {
 });
 
 // Get user by id
+// /api/v1/user/id
 router.get('/id/:id', (req, res) => {
   User.findOne({ _id: req.params.id }).then(
     (user) => {
@@ -55,6 +57,7 @@ router.get('/id/:id', (req, res) => {
 });
 
 // Get user by phone number
+// /api/v1/user/phone
 router.get('/phone/:phoneNumber', (req, res) => {
   User.findOne({ phoneNumber: req.params.phoneNumber }).then(
     (user) => {
