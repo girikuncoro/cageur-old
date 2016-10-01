@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../model/user');
+const abort = require('../util').abort;
 
 
 // Insert new user
@@ -10,6 +11,7 @@ router.post('/', (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     diseases: req.body.diseases,
+    clinic: req.body.clinic,
   });
 
   User.find({ phoneNumber: newUser.phoneNumber }).count().then(
@@ -23,7 +25,7 @@ router.post('/', (req, res) => {
           },
           (err) => {
             /* eslint-disable no-console */
-            if (process.env.NODE_ENV === 'dev') {
+            if (process.env.NODE_ENV === 'development') {
               console.error(err);
             }
             /* eslint-enable no-console */
@@ -33,6 +35,19 @@ router.post('/', (req, res) => {
       }
     }
   );
+});
+
+// Get all users
+// /api/v1/user
+router.get('/', (req, res, next) => {
+  User.find({})
+  .then((patients) => {
+    if (patients.length === 0) {
+      throw abort(404, 'Patient data is empty');
+    }
+    return res.json({ status: 200, message: 'success', patients });
+  })
+  .catch(err => next(err));
 });
 
 // Get user by id
@@ -69,7 +84,7 @@ router.get('/phone/:phoneNumber', (req, res) => {
     },
     (err) => {
       /* eslint-disable no-console */
-      if (process.env.NODE_ENV === 'dev') {
+      if (process.env.NODE_ENV === 'development') {
         console.error(err);
       }
       /* eslint-enable no-console */
