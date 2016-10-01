@@ -41,7 +41,11 @@ $ npm run lint
 ```
 $ npm run dev
 ```
-- Run local db server
+- Run local db server for development
 ```
-$ npm run db
+$ npm run db:dev
+```
+- Run local db server for testing
+```
+$ npm run db:test
 ```
