@@ -12,6 +12,7 @@ describe('Sms API', () => {
       firstName: 'cecep',
       lastName: 'supriadi',
       diseases: ['diabetes'],
+      clinic: 'medica',
     });
     const incomingSms = {
       messageId: '1',

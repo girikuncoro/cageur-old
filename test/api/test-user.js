@@ -11,6 +11,7 @@ describe('User API', () => {
       firstName: 'cecep',
       lastName: 'supriadi',
       diseases: ['diabetes'],
+      clinic: 'medica',
     };
 
     beforeEach((done) => {
@@ -105,6 +106,7 @@ describe('User API', () => {
         firstName: 'cecep',
         lastName: 'supriadi',
         diseases: ['diabetes'],
+        clinic: 'medica',
       };
 
       request(app)
@@ -135,12 +137,14 @@ describe('User API', () => {
         phoneNumber: '+123',
         firstName: 'ayu',
         diseases: ['diabetes'],
+        clinic: 'medica',
       };
 
       const user2 = {
         phoneNumber: '+456',
         firstName: 'budi',
         diseases: ['uric acid', 'diabetes'],
+        clinic: 'medica',
       };
 
       User.remove((_) => {
