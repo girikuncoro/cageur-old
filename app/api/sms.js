@@ -30,8 +30,14 @@ router.post('/broadcast', (req, res, next) => {
 // Broadcast SMS by disease group
 // /api/v1/sms/broadcast/group
 router.post('/broadcast/group', (req, res, next) => {
-  const group = req.body.group;
+  const group = req.body.group.trim().toLowerCase();
   const message = req.body.message;
+
+  /* eslint-disable no-console */
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('Message broadcasted', req);
+  }
+  /* eslint-enable no-console */
 
   // TODO: fetch clinic from admin's credentials
   User.find({ diseases: group, clinic: 'temporary' })
