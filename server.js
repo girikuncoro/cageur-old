@@ -38,7 +38,8 @@ app.get('/', (req, res) => {
  * API routes.
  */
 app.use('/api/v1/user', require('./app/api/user'));
-app.use('/api/v1/sms', require('./app/api/sms'));
+app.use('/api/v1/sms/incoming', require('./app/api/sms-incoming'));
+app.use('/api/v1/sms/broadcast', require('./app/api/sms-broadcast'));
 
 /**
  * Error handler routes.

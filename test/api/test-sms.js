@@ -6,7 +6,7 @@ const assert = require('assert');
 
 
 describe('Sms API', () => {
-  describe('#GET /api/v1/sms/nexmo', () => {
+  describe('#GET /api/v1/sms/incoming/nexmo', () => {
     const user = new User({
       phoneNumber: '+111',
       firstName: 'cecep',
@@ -31,7 +31,7 @@ describe('Sms API', () => {
 
     it('should get sms response', (done) => {
       request(app)
-      .get('/api/v1/sms/nexmo')
+      .get('/api/v1/sms/incoming/nexmo')
       .query(incomingSms)
       .end((_, res) => {
         const r = JSON.parse(res.text);
@@ -44,7 +44,7 @@ describe('Sms API', () => {
 
     it('should be logged in datastore', (done) => {
       request(app)
-      .get('/api/v1/sms/nexmo')
+      .get('/api/v1/sms/incoming/nexmo')
       .query(incomingSms)
       .end((_, __) => {
         SmsRequest.count({}, (___, total) => {
@@ -61,7 +61,7 @@ describe('Sms API', () => {
         text: 'test message',
       };
       request(app)
-      .get('/api/v1/sms/nexmo')
+      .get('/api/v1/sms/incoming/nexmo')
       .query(invalidSms)
       .end((_, res) => {
         const r = JSON.parse(res.text);
@@ -80,7 +80,7 @@ describe('Sms API', () => {
         text: 'test message',
       };
       request(app)
-      .get('/api/v1/sms/nexmo')
+      .get('/api/v1/sms/incoming/nexmo')
       .query(invalidSms)
       .end((_, res) => {
         const r = JSON.parse(res.text);
