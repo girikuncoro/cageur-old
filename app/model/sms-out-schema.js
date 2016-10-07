@@ -12,7 +12,7 @@ const SmsOutSchema = db.Schema({
   repeat: { type: String, enum: ['none', 'daily', 'monthly'], default: 'none' },
   quantity: { type: Number, default: 0 },
 
-  time: { type: Date, required: true }
+  time: { type: Date, required: true },
   clinic: { type: String, required: true },  // TODO: implement clinic data model
 },
   {

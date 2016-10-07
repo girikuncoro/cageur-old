@@ -17,13 +17,12 @@ router.post('/broadcast', (req, res, next) => {
     to_numbers: phoneNumbers,
   }, (err, _) => {
     if (err) return next(abort(401, 'SMS delivery failed'));
-  });
-
-  return res.json({
-    status: 200,
-    message: 'success',
-    totalPatient: phoneNumbers.length,
-    text: message,
+    return res.json({
+      status: 200,
+      message: 'success',
+      totalPatient: phoneNumbers.length,
+      text: message,
+    });
   });
 });
 
