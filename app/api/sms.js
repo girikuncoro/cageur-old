@@ -16,7 +16,7 @@ router.post('/broadcast', (req, res, next) => {
     content: message,
     to_numbers: phoneNumbers,
   }, (err, _) => {
-    if (err) next(abort(401, 'SMS delivery failed'));
+    if (err) return next(abort(401, 'SMS delivery failed'));
   });
 
   return res.json({
