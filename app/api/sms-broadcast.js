@@ -3,7 +3,6 @@ const User = require('../model/user');
 const abort = require('../util').abort;
 const telerivet = require('../config/sms-telerivet');
 
-
 // Broadcast SMS by phoneNumber
 // /api/v1/sms/broadcast
 router.post('/', (req, res, next) => {

@@ -38,8 +38,11 @@ app.get('/', (req, res) => {
  * API routes.
  */
 app.use('/api/v1/user', require('./app/api/user'));
+app.use('/api/v1/group', require('./app/api/group'));
+
 app.use('/api/v1/sms/incoming', require('./app/api/sms-incoming'));
 app.use('/api/v1/sms/broadcast', require('./app/api/sms-broadcast'));
+app.use('/api/v1/sms/schedule', require('./app/api/sms-schedule'));
 
 /**
  * Error handler routes.

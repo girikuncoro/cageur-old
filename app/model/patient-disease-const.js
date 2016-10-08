@@ -1,4 +1,5 @@
 const PatientDiseaseConst = [
+  'all',
   'diabetes',
   'uric acid',
   'cholestrol',
