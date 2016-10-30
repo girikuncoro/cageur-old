@@ -3,65 +3,10 @@ const SmsRequest = require('../model/sms-request');
 const User = require('../model/user');
 const nexmo = require('../config/sms').nexmo;
 const abort = require('../util').abort;
-const telerivet = require('../config/sms-telerivet');
 
-
-// Broadcast SMS by phoneNumber
-// /api/v1/sms/broadcast
-router.post('/broadcast', (req, res, next) => {
-  const phoneNumbers = req.body.phoneNumbers;
-  const message = req.body.message;
-
-  telerivet.sendMessages({
-    content: message,
-    to_numbers: phoneNumbers,
-  }, (err, _) => {
-    if (err) next(abort(401, 'SMS delivery failed'));
-  });
-
-  return res.json({
-    status: 200,
-    message: 'success',
-    totalPatient: phoneNumbers.length,
-    text: message,
-  });
-});
-
-// Broadcast SMS by disease group
-// /api/v1/sms/broadcast/group
-router.post('/broadcast/group', (req, res, next) => {
-  const group = req.body.group;
-  const message = req.body.message;
-
-  // TODO: fetch clinic from admin's credentials
-  User.find({ diseases: group, clinic: 'temporary' })
-  .then((patients) => {
-    if (patients.length === 0) {
-      throw abort(404, 'No patients in this group');
-    }
-    const phoneNumbers = patients.map(patient => patient.phoneNumber);
-    return phoneNumbers;
-  })
-  .then((phoneNumbers) => {
-    telerivet.sendMessages({
-      content: message,
-      to_numbers: phoneNumbers,
-    }, (err, _) => {
-      if (err) throw abort(401, 'SMS delivery failed');
-    });
-
-    return res.json({
-      status: 200,
-      message: 'success',
-      totalPatient: phoneNumbers.length,
-      text: message,
-    });
-  })
-  .catch(err => next(err));
-});
 
 // Callback from inbound Nexmo SMS
-// /api/v1/sms/nexmo
+// /api/v1/sms/incoming/nexmo
 router.get('/nexmo', (req, res, next) => {
   const newSms = new SmsRequest({
     nexmoMessageId: req.query.messageId,

@@ -4,6 +4,7 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 /**
  * Create express server.
@@ -24,6 +25,7 @@ if (env === 'development' || env === 'test') {
 const port = env === 'test' ? 3000 : process.env.PORT || 5000;
 app.use(bodyParser.json()); // Enable json body parsing of application/json
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 /**
  * Primary app routes.
@@ -36,7 +38,11 @@ app.get('/', (req, res) => {
  * API routes.
  */
 app.use('/api/v1/user', require('./app/api/user'));
-app.use('/api/v1/sms', require('./app/api/sms'));
+app.use('/api/v1/group', require('./app/api/group'));
+
+app.use('/api/v1/sms/incoming', require('./app/api/sms-incoming'));
+app.use('/api/v1/sms/broadcast', require('./app/api/sms-broadcast'));
+app.use('/api/v1/sms/schedule', require('./app/api/sms-schedule'));
 
 /**
  * Error handler routes.
